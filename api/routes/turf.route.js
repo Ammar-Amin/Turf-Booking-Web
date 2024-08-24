@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { createTurf, deleteTurf, getAllTurfs, getTurf, updateTurf } from "../controllers/turf.controller.js";
+import { verifyAdmin } from "../utils/verify.js";
 
 const router = Router()
 
@@ -11,13 +12,13 @@ router.get('/', getAllTurfs)
 router.get('/:id', getTurf)
 
 // create new turf 
-router.post('/', createTurf)
+router.post('/', verifyAdmin, createTurf)
 
 // update Turf 
-router.put('/:id', updateTurf)
+router.put('/:id', verifyAdmin, updateTurf)
 
 // delete Turf 
-router.delete('/:id', deleteTurf)
+router.delete('/:id', verifyAdmin, deleteTurf)
 
 
 export default router
