@@ -17,10 +17,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Password is required'],
     },
-    phone: {
-        type: String,
-        required: true
-    },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
 export const User = mongoose.model('User', userSchema);
