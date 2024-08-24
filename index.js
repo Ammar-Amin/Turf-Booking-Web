@@ -6,6 +6,7 @@ import { authRoute, userRoute, turfRoute, bookingRoute } from "./api/routes/inde
 const app = express()
 dotenv.config()
 
+app.use(express.json())
 
 // routes 
 app.use('/api/auth', authRoute)
@@ -26,6 +27,20 @@ mongoose.connect(process.env.MONGODB_URI)
 
 mongoose.connection.on("disconnected", () => {
     console.log("DB disconnected")
+})
+
+
+// Error Handler 
+app.use((err, req, res, next) => {
+    const status = err.status || 500
+    const message = err.message || "Something went wrong"
+
+    res.status(status).json({
+        success: false,
+        status,
+        message,
+        stack: err.stack,
+    })
 })
 
 const PORT = 3000
