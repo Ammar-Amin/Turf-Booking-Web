@@ -15,7 +15,7 @@ const App = () => {
         <Route path='/booking' element={<AllTurfs />} />
 
         <Route element={<UserProtected />} >
-          <Route path='/booking/:id' element={<SingleTurf />} />
+          <Route path='/turf/:id' element={<SingleTurf />} />
           <Route path='/account' element={<Account />} />
         </Route>
 

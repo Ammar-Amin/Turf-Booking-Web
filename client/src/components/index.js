@@ -4,6 +4,7 @@ import Input from "./input";
 import TurfForm from "./turf-form";
 import UserProtected from "./user-protected";
 import AdminProtected from "./admin-protected";
+import TurfCard from "./turf-card";
 
 
 export {
@@ -13,5 +14,6 @@ export {
     TurfForm,
     UserProtected,
     AdminProtected,
+    TurfCard,
 
 }
