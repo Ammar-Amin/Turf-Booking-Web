@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import Input from '../input'
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
+import { app } from '@/firebase.js'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const TurfForm = ({ data }) => {
 
+    const [files, setFiles] = useState([])
     const [formData, setFormData] = useState({
         name: data?.name || '',
         desc: data?.desc || '',
@@ -17,18 +22,126 @@ const TurfForm = ({ data }) => {
         closingTime: data?.closingTime || '',
         imageUrls: data?.imageUrls || [],
     })
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+    const [uploading, setUploading] = useState(false)
+    const navigate = useNavigate()
+
 
     function handleChange(e) {
-        setFormData({
-            ...formData,
-            [e.target.name]: [e.target.value]
+        let { name, value } = e.target
+
+        if (name.startsWith('location.')) {
+            const locationField = name.split('.')[1];
+            setFormData(prevState => ({
+                ...prevState,
+                location: {
+                    ...prevState.location,
+                    [locationField]: value
+                }
+            }));
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            })
+        }
+
+    }
+
+    function uploadFiles() {
+        setUploading(true)
+        if (files.length > 0) {
+            const promises = []
+            for (let i = 0; i < files.length; i++) {
+                promises.push(
+                    storeImage(files[i])
+                )
+            }
+
+            Promise.all(promises).then((urls) => {
+                setFormData({
+                    ...formData,
+                    imageUrls: formData.imageUrls.concat(urls)
+                })
+                setUploading(false)
+            }).catch((err) => {
+                console.log(err)
+                setUploading(false)
+            })
+        } else {
+            setUploading(false)
+            setError('You can only upload 3 images per Turf');
+        }
+    }
+
+    const storeImage = async (file) => {
+        return new Promise((resolve, reject) => {
+            const storage = getStorage(app);
+            const fileName = file.name + new Date().getTime();
+            const storageRef = ref(storage, fileName);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + ' % done.');
+                },
+                (error) => {
+                    reject(error)
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref)
+                        .then((downloadURL) => {
+                            resolve(downloadURL);
+                        })
+                }
+            )
         })
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
+        setLoading(true)
+        setError(null)
         console.log(formData)
+        if (data) {
+            try {
+                const res = await axios.put(
+                    `${import.meta.env.VITE_BASE_API}/api/turf/${data._id}`,
+                    formData,
+                    { headers: { "Content-Type": "application/json" } }
+                )
+                console.log(res)
+                if (res) {
+                    setLoading(false)
+                    navigate(`/turf/${data._id}`)
+                }
+            } catch (err) {
+                setError(err.response.data.message)
+                setLoading(false)
+            }
+        } else {
+            try {
+                const res = await axios.post(
+                    `${import.meta.env.VITE_BASE_API}/api/turf`,
+                    formData,
+                    { headers: { "Content-Type": "application/json" } }
+                )
+                console.log("RES ", res)
+                if (res) {
+                    setLoading(false)
+                    navigate(`/turf/${res._id}`)
+                }
+            } catch (err) {
+                setLoading(false)
+                console.log(err)
+                setError(err.response?.data?.message ?? "Failed to Create Turf")
+            }
+        }
     }
+
+    if (loading) return <h1>Loading...</h1>
 
 
     return (
@@ -45,6 +158,7 @@ const TurfForm = ({ data }) => {
                             label='Turf Name'
                             name='name'
                             placeholder="Enter the Turf's name"
+                            value={formData.name}
                             onChange={handleChange}
                         />
                         <div>
@@ -55,6 +169,7 @@ const TurfForm = ({ data }) => {
                                 rows='3'
                                 placeholder='Enter the Description'
                                 className='w-full rounded-lg px-4 py-2 outline-none'
+                                value={formData.desc}
                                 onChange={handleChange}
                             />
                         </div>
@@ -66,23 +181,27 @@ const TurfForm = ({ data }) => {
                                 rows='2'
                                 placeholder='Enter the Address'
                                 className='w-full rounded-lg px-4 py-2 outline-none'
+                                value={formData.location.address}
                                 onChange={handleChange}
                             />
                         </div>
                         <Input
                             label='City'
                             name='location.city'
+                            value={formData.location.city}
                             onChange={handleChange}
                         />
                         <Input
                             label='State'
                             name='location.state'
+                            value={formData.location.state}
                             onChange={handleChange}
                         />
                         <Input
                             label='Pincode'
                             type='number'
                             name='location.pincode'
+                            value={formData.location.pincode}
                             onChange={handleChange}
                         />
                     </div>
@@ -92,25 +211,45 @@ const TurfForm = ({ data }) => {
                             type='number'
                             name='pricePerHour'
                             placeholder='INR only /-'
+                            value={formData.pricePerHour}
                             onChange={handleChange}
                         />
                         <Input
                             label='Opening Time'
+                            type='time'
                             name='openingTime'
-                            placeholder='12 hour format'
+                            value={formData.openingTime}
                             onChange={handleChange}
                         />
                         <Input
                             label='Closing Time'
+                            type='time'
                             name='closingTime'
-                            placeholder='12 hour format'
+                            value={formData.closingTime}
                             onChange={handleChange}
                         />
                         <Input
+                            label='Max 3 Images allowed'
                             type='file'
+                            accept='image/*'
+                            multiple
+                            onChange={(e) => setFiles(e.target.files)}
                         />
+                        {
+                            formData.imageUrls.length == 0 &&
+                            files.length > 0 &&
+                            <button type='button' onClick={uploadFiles} disabled={uploading} className='w-[100px] mx-auto py-1 text-center bg-teal-400 rounded-lg'>
+                                {uploading ? "Uploading" : "Upload"}
+                            </button>
+                        }
+                        {formData.imageUrls.length > 0 &&
+                            <span className='text-center text-green-700'>Uploaded.</span>
+                        }
+                        {
+                            error && <span className='mt-2 text-red-500 font-medium text-center'>{error}</span>
+                        }
                         <div className='mt-5 flex justify-center'>
-                            <button type='submit' className='px-8 py-2 bg-green-400 rounded-lg'>
+                            <button type='submit' disabled={uploading} className='px-8 py-2 bg-green-400 rounded-lg'>
                                 {
                                     data ? 'Update' : 'Submit'
                                 }
