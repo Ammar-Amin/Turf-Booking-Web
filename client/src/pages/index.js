@@ -5,6 +5,7 @@ import CreateTurf from "./CreateTurf";
 import UpdateTurf from "./UpdateTurf";
 import AllTurfs from "./AllTurfs";
 import SingleTurf from "./SingleTurf";
+import Account from "./Account";
 
 
 export {
@@ -15,5 +16,6 @@ export {
     UpdateTurf,
     AllTurfs,
     SingleTurf,
+    Account,
 
 }

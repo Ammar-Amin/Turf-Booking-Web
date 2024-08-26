@@ -17,8 +17,6 @@ import {
 const Header = () => {
 
     const authStatus = useSelector(state => state.auth.status)
-    console.log(authStatus)
-
 
     const navItems = [
         {

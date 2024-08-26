@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { AllTurfs, CreateTurf, Home, Login, SignUp, SingleTurf, UpdateTurf } from './pages'
+import { Account, AllTurfs, CreateTurf, Home, Login, SignUp, SingleTurf, UpdateTurf } from './pages'
 import { AdminProtected, Footer, Header, UserProtected } from './components'
 
 const App = () => {
@@ -16,6 +16,7 @@ const App = () => {
 
         <Route element={<UserProtected />} >
           <Route path='/booking/:id' element={<SingleTurf />} />
+          <Route path='/account' element={<Account />} />
         </Route>
 
         <Route element={<AdminProtected />}>
