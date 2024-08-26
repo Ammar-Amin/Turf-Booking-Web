@@ -1,10 +1,76 @@
-import React from 'react'
+import { Input } from '@/components'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const SignUp = () => {
-    return (
-        <div>
+    const [data, setData] = useState({
+        name: '',
+        email: '',
+        password: ''
+    })
 
-        </div>
+    function handleChange(e) {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+        console.log(data)
+        try {
+            const res = await axios.post('/api/auth/signup', data)
+            console.log(res)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    return (
+        <section className='w-full min-h-screen px-3 flex items-center justify-center'>
+            <div className='md:w-[500px] lg:w-[600px] p-5 md:p-10 flex flex-col border bg-green-200 rounded-lg mt-14'>
+
+                <h2 className="my-4 text-center text-2xl lg:text-3xl font-bold leading-tight">Sign up to create account</h2>
+
+                <form className='mt-3 flex flex-col' onSubmit={handleSubmit}>
+                    <Input
+                        label='Full Name'
+                        name='name'
+                        placeholder='Enter your name'
+                        onChange={handleChange}
+                    />
+                    <Input
+                        label='Email'
+                        type='email'
+                        name='email'
+                        placeholder='Enter your email'
+                        onChange={handleChange}
+                    />
+                    <Input
+                        label='Password'
+                        type='password'
+                        name='password'
+                        placeholder='Enter you password'
+                        onChange={handleChange}
+                    />
+                    <div className='mt-5 flex justify-center'>
+                        <button type='submit' className='px-8 py-2 bg-green-400 rounded-lg'>Submit</button>
+                    </div>
+                </form>
+
+                <p className="mt-4 text-center text-sm">
+                    Already have an account?&nbsp;
+                    <Link
+                        to="/login"
+                        className="font-medium text-blue-600 transition-all duration-200 hover:underline"
+                    >
+                        Log In
+                    </Link>
+                </p>
+
+            </div>
+        </section>
     )
 }
 

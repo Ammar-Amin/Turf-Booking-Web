@@ -44,7 +44,7 @@ const Header = () => {
     ]
 
     return (
-        <header className='w-full bg-gray-900 text-white'>
+        <header className='fixed top-0 z-50 w-full bg-gray-900 text-white'>
             <div className='max-w-[80rem] mx-auto flex justify-between items-center px-4 py-6'>
                 <Link to='/' className='text-lg md:text-xl hover:text-slate-200'>{WEBSITE_NAME}</Link>
 
