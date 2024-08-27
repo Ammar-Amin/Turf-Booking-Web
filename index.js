@@ -7,7 +7,11 @@ import cors from 'cors'
 
 const app = express()
 dotenv.config()
-app.use(cors())
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    credentials: true
+}))
 
 app.use(express.json())
 app.use(cookieParser())
@@ -20,9 +24,11 @@ app.use('/api/booking', bookingRoute)
 
 
 
-app.get('/', (req, res) => {
-    res.send("Welcome to home page")
-})
+// app.get('/', (req, res) => {
+//     console.log("COOKIE ", req.cookies)
+//     res.cookie('test', 'test')
+//     res.send("Welcome to home page")
+// })
 
 
 mongoose.connect(process.env.MONGODB_URI)

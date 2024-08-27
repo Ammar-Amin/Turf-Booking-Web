@@ -1,11 +1,11 @@
 import { TurfForm } from '@/components'
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 const UpdateTurf = () => {
     const { id } = useParams()
-    let data;
+    const [data, setData] = useState(null)
 
     async function getTurf() {
         try {
@@ -14,7 +14,8 @@ const UpdateTurf = () => {
             )
 
             if (res) {
-                data = res
+                console.log(res.data)
+                setData(res.data)
             }
         } catch (err) {
             console.log(err.response?.data ?? "Error Editing Turf")
@@ -25,9 +26,15 @@ const UpdateTurf = () => {
         getTurf()
     }, [id])
 
+    if (!data) return <div className='h-[400px] flex justify-center items-center'>
+        <span>
+            Loading
+        </span>
+    </div>
+
     return (
         <div>
-            <TurfForm data={data} />
+            {data && <TurfForm data={data} />}
         </div>
     )
 }

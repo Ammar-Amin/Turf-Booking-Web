@@ -6,6 +6,7 @@ import UpdateTurf from "./UpdateTurf";
 import AllTurfs from "./AllTurfs";
 import SingleTurf from "./SingleTurf";
 import Account from "./Account";
+import NotFound from "./NotFound";
 
 
 export {
@@ -17,5 +18,5 @@ export {
     AllTurfs,
     SingleTurf,
     Account,
-
+    NotFound
 }

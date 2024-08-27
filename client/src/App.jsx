@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Account, AllTurfs, CreateTurf, Home, Login, SignUp, SingleTurf, UpdateTurf } from './pages'
+import { Account, AllTurfs, CreateTurf, Home, Login, NotFound, SignUp, SingleTurf, UpdateTurf } from './pages'
 import { AdminProtected, Footer, Header, UserProtected } from './components'
 
 const App = () => {
@@ -23,6 +23,8 @@ const App = () => {
           <Route path='/create-turf' element={<CreateTurf />} />
           <Route path='/update-turf/:id' element={<UpdateTurf />} />
         </Route>
+
+        <Route path='*' element={<NotFound />} />
 
       </Routes>
       <Footer />
