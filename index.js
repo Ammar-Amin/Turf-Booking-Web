@@ -4,6 +4,9 @@ import mongoose from "mongoose"
 import { authRoute, userRoute, turfRoute, bookingRoute } from "./api/routes/index.js"
 import cookieParser from "cookie-parser"
 import cors from 'cors'
+import path from 'path';
+
+const __dirname = path.resolve();
 
 const app = express()
 dotenv.config()
@@ -39,6 +42,12 @@ mongoose.connection.on("disconnected", () => {
     console.log("DB disconnected")
 })
 
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
 
 // Error Handler 
 app.use((err, req, res, next) => {
