@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const TurfCard = ({ turf }) => {
-    const { isAdmin } = useSelector(state => state.auth.user)
+    const user = useSelector(state => state.auth.user)
+    const isAdmin = user?.isAdmin
     return (
         <div className="mx-4 mt-4 md:mt-8 w-[300px] rounded-lg border-[1px] border-green-600">
             <img

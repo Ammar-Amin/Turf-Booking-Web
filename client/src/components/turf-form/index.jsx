@@ -123,10 +123,16 @@ const TurfForm = ({ data }) => {
             }
         } else {
             try {
+                console.log(document.cookie)
                 const res = await axios.post(
                     `${import.meta.env.VITE_BASE_API}/api/turf`,
                     formData,
-                    { headers: { "Content-Type": "application/json" } }
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${document.cookie}`,
+                        }
+                    }
                 )
                 console.log("RES ", res)
                 if (res) {

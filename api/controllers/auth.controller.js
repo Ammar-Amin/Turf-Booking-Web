@@ -34,7 +34,7 @@ export const login = async (req, res, next) => {
         const { password, ...rest } = user._doc
 
         res
-            .cookie("access_token", token, { httpOnly: true })
+            .cookie("access__token", token, { httpOnly: true })
             .status(200)
             .json(rest)
     } catch (error) {
@@ -44,8 +44,8 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res, next) => {
     try {
-        res.clearCookie('access_token');
-        res.status(200).json('User has been logged out')
+        res.clearCookie('access__token')
+        res.send('User has been logged out')
     } catch (err) {
         next(err);
     }

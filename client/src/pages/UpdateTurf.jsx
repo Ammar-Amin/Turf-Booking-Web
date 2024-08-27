@@ -1,13 +1,33 @@
 import { TurfForm } from '@/components'
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 const UpdateTurf = () => {
     const { id } = useParams()
-    // id se turf k data fetch krna h 
+    let data;
+
+    async function getTurf() {
+        try {
+            const res = await axios.get(
+                `${import.meta.env.VITE_BASE_API}/api/turf/${id}`
+            )
+
+            if (res) {
+                data = res
+            }
+        } catch (err) {
+            console.log(err.response?.data ?? "Error Editing Turf")
+        }
+    }
+
+    useEffect(() => {
+        getTurf()
+    }, [id])
+
     return (
         <div>
-            <TurfForm data='1' />
+            <TurfForm data={data} />
         </div>
     )
 }
