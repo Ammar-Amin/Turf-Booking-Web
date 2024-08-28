@@ -6,7 +6,7 @@ import UserProtected from "./user-protected";
 import AdminProtected from "./admin-protected";
 import TurfCard from "./turf-card";
 import BookingForm from "./booking-form";
-
+import Loader from "./loader";
 
 export {
     Header,
@@ -17,5 +17,5 @@ export {
     AdminProtected,
     TurfCard,
     BookingForm,
-
+    Loader,
 }

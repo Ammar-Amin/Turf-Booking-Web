@@ -1,4 +1,4 @@
-import { TurfCard } from '@/components'
+import { Loader, TurfCard } from '@/components'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
@@ -30,7 +30,7 @@ const AllTurfs = () => {
             <h1 className='mt-8 mb-1 md:mt-12 text-center text-2xl md:text-4xl lg:text-6xl'>Find and Book Your Perfect Turf</h1>
             {
                 loading
-                    ? <h1>Loading...</h1>
+                    ? <Loader />
                     : <div className='flex flex-wrap justify-center items-center gap-4'>
                         {
                             allTurfs.length > 0 &&

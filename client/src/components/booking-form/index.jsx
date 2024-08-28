@@ -40,7 +40,7 @@ const BookingForm = ({
             )
             if (res) {
                 console.log(res)
-                setStatus("Booked")
+                setStatus("Booked Successfully!")
                 setLoading(false)
                 setOpenModal(false)
             }

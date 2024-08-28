@@ -1,4 +1,4 @@
-import { BookingForm } from '@/components'
+import { BookingForm, Loader } from '@/components'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -30,7 +30,7 @@ const SingleTurf = () => {
     }, [])
 
     if (loading) return <div className='min-h-screen flex justify-center items-center'>
-        <h1>Loading...</h1>
+        <Loader />
     </div>
 
     return (

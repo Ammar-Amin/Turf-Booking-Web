@@ -38,38 +38,6 @@ const Account = () => {
         }
     }
 
-    let ob = {
-        "_id": "66cde2d7abffa80886856060",
-        "turf": {
-            "location": {
-                "address": "101 ProPlay Street",
-                "city": "Pune",
-                "state": "Maharashtra",
-                "pincode": "411001"
-            },
-            "_id": "66cca9a82ec0892c5384e35f",
-            "name": "ProPlay Field",
-            "pricePerHour": 1600,
-            "imageUrls": [
-                "https://firebasestorage.googleapis.com/v0/b/turf-time-07.appspot.com/o/bastekbal.jpg1724688111363?alt=media&token=fd2e151a-9ff4-4d1f-b36a-71a22ad216e5",
-                "https://firebasestorage.googleapis.com/v0/b/turf-time-07.appspot.com/o/bsk.jpg1724688111363?alt=media&token=435aaa4d-854e-4f4a-aa73-eed6799d442f"
-            ]
-        },
-        "user": {
-            "_id": "66c98c8afbf76fb32bb870bd",
-            "name": "a",
-            "email": "a@a.com"
-        },
-        "bookingDate": "2024-08-31T00:00:00.000Z",
-        "startTime": "05:00",
-        "endTime": "09:00",
-        "totalAmount": 2000,
-        "paymentStatus": "Pending",
-        "createdAt": "2024-08-27T14:29:43.141Z",
-        "updatedAt": "2024-08-27T14:29:43.141Z",
-        "__v": 0
-    }
-
     useEffect(() => {
         getBookings()
     }, [])

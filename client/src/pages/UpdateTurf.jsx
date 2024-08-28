@@ -1,4 +1,4 @@
-import { TurfForm } from '@/components'
+import { Loader, TurfForm } from '@/components'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -26,10 +26,8 @@ const UpdateTurf = () => {
         getTurf()
     }, [id])
 
-    if (!data) return <div className='h-[400px] flex justify-center items-center'>
-        <span>
-            Loading
-        </span>
+    if (!data) return <div className='min-h-screen flex justify-center items-center'>
+        <Loader />
     </div>
 
     return (
