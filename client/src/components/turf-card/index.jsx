@@ -12,7 +12,7 @@ const TurfCard = ({ turf }) => {
                 alt={turf.imageUrls[0]}
                 className="h-[200px] w-full rounded-t-lg object-cover"
             />
-            <div className="p-4 bg-[#cdffd5] overflow-hidden rounded-b-lg">
+            <div className="p-4 bg-[#c6ffcf] overflow-hidden rounded-b-lg">
                 <h1 className="text-lg font-semibold">{turf.name}</h1>
                 <p className="mt-2 text-sm text-gray-600 line-clamp-2">
                     {turf.desc}

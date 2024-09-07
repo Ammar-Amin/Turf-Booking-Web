@@ -17,10 +17,11 @@ import {
 const Header = () => {
 
     const authStatus = useSelector(state => state.auth.status)
+    const user = useSelector(state => state.auth.user)
 
     const navItems = [
         {
-            title: 'Book Now',
+            title: 'Explore',
             route: '/booking',
             active: !authStatus,
         },
@@ -30,9 +31,14 @@ const Header = () => {
             active: !authStatus,
         },
         {
-            title: 'Book Now',
+            title: 'Explore',
             route: '/booking',
             active: authStatus,
+        },
+        {
+            title: 'Create Turf',
+            route: '/create-turf',
+            active: user.isAdmin,
         },
         {
             title: 'Account',

@@ -52,12 +52,12 @@ const BookingForm = ({
     }
 
     return (
-        <section className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white'>
-            <div className='absolute top-1 right-1 px-2 bg-slate-700 rounded-full cursor-pointer'
+        <section className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white min-w-[300px]'>
+            <div className='absolute top-1 right-1 px-2.5 pb-1 text-lg bg-black/30 rounded-full cursor-pointer'
                 onClick={() => setOpenModal(false)}>
                 x
             </div>
-            <form className='p-7 flex flex-col bg-black/60 rounded-lg' onSubmit={handleSubmit}>
+            <form className='p-7 flex flex-col bg-black/80 rounded-lg' onSubmit={handleSubmit}>
                 <Input
                     label='Booking Date'
                     type='date'
@@ -97,7 +97,7 @@ const BookingForm = ({
                     error && <span className='mt-2 text-red-400 font-medium text-center'>{error}</span>
                 }
                 <div className='mt-5 flex justify-center'>
-                    <button type='submit' className='px-8 py-2 bg-green-500 rounded-lg'>
+                    <button type='submit' className='px-8 py-2 bg-green-600 rounded-lg'>
                         {loading ? 'Booking...' : 'Book'}
                     </button>
                 </div>

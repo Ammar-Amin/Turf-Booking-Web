@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../input'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { app } from '@/firebase.js'
@@ -146,6 +146,10 @@ const TurfForm = ({ data }) => {
             }
         }
     }
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     if (loading) return <h1>Loading...</h1>
 

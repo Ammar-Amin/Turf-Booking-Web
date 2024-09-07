@@ -37,12 +37,12 @@ const SingleTurf = () => {
         <section className='w-full min-h-screen relative'>
             {
                 turf.length != 0 &&
-                <div className='mt-[76px]'>
+                <div className='pt-[76px]'>
                     <img src={turf.imageUrls[0]}
                         alt={turf.imageUrls[0]}
                         className='w-full h-[250px] sm:h-[400px] lg:h-[550px] xl:h-[747px] object-cover'
                     />
-                    <div className='w-full sm:max-w-xl lg:max-w-2xl xl:max-w-4xl mx-auto p-5 md:py-14 lg:pb-20 flex flex-col gap-4 relative'>
+                    <div className='w-full sm:max-w-xl lg:max-w-2xl xl:max-w-4xl mx-auto p-5 md:py-14 lg:pb-10 flex flex-col gap-4 relative'>
                         <h1 className='text-2xl md:text-4xl lg:text-5xl'>{turf.name}</h1>
                         <p className='text-sm md:text-base lg:text-lg text-slate-700'>{turf.desc}</p>
                         <div className='flex gap-2'>
