@@ -104,7 +104,7 @@ const TurfForm = ({ data }) => {
         e.preventDefault()
         setLoading(true)
         setError(null)
-        console.log(formData)
+
         if (data) {
             try {
                 const res = await axios.put(
@@ -112,7 +112,7 @@ const TurfForm = ({ data }) => {
                     formData,
                     { headers: { "Content-Type": "application/json" } }
                 )
-                console.log(res)
+                // console.log(res)
                 if (res) {
                     setLoading(false)
                     navigate(`/turf/${data._id}`)

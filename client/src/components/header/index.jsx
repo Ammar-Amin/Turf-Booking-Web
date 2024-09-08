@@ -1,6 +1,6 @@
 import { WEBSITE_NAME } from '@/constant'
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { RiMenu3Line } from "react-icons/ri";
 import {
@@ -12,40 +12,57 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
+import axios from 'axios';
+import { login } from '@/store/slice/authSlice';
 
 
 const Header = () => {
 
-    const authStatus = useSelector(state => state.auth.status)
-    const user = useSelector(state => state.auth.user)
+    const { status, user } = useSelector(state => state.auth)
+    const dispatch = useDispatch()
 
     const navItems = [
         {
             title: 'Explore',
             route: '/booking',
-            active: !authStatus,
+            active: !status,
         },
         {
             title: 'Login',
             route: '/login',
-            active: !authStatus,
+            active: !status,
         },
         {
             title: 'Explore',
             route: '/booking',
-            active: authStatus,
+            active: status,
         },
         {
             title: 'Create Turf',
             route: '/create-turf',
-            active: user.isAdmin,
+            active: user?.isAdmin,
         },
         {
             title: 'Account',
             route: '/account',
-            active: authStatus,
+            active: status,
         },
     ]
+
+    useEffect(() => {
+        async function checkUserAuthStatus() {
+            try {
+                let res = await axios(`${import.meta.env.VITE_BASE_API}/api/auth/`)
+                // console.log(res)
+                if (res.status == 200) {
+                    dispatch(login(res.data))
+                }
+            } catch (error) {
+                console.log(error.response.data.message)
+            }
+        }
+        checkUserAuthStatus()
+    }, [])
 
     return (
         <header className='fixed top-0 z-50 w-full bg-gray-900 text-white'>

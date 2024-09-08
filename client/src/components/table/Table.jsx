@@ -9,7 +9,7 @@ const Table = () => {
         try {
             const res = await axios.get(`${import.meta.env.VITE_BASE_API}/api/booking`)
             if (res) {
-                console.log(res)
+                // console.log(res)
                 setData(res.data)
             }
         } catch (err) {
@@ -21,7 +21,7 @@ const Table = () => {
         try {
             const res = await axios.delete(`${import.meta.env.VITE_BASE_API}/api/booking/${id}`)
             if (res) {
-                console.log(res.data)
+                // console.log(res.data)
                 getBookings()
             }
         } catch (err) {
@@ -71,7 +71,7 @@ const Table = () => {
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
                 {data.length > 0 && data.map((obj) => (
-                    <Row obj={obj} deleteBooking={deleteBooking} />
+                    <Row key={obj._id} obj={obj} deleteBooking={deleteBooking} />
                 ))}
             </tbody>
         </table>

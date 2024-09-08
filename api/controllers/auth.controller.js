@@ -51,3 +51,13 @@ export const logout = async (req, res, next) => {
     }
 };
 
+
+export const checkUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password')
+        if (!user) return next(apiError(404, "User not found"))
+        res.json(user)
+    } catch (err) {
+        next(err)
+    }
+}

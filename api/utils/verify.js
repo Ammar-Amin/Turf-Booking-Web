@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken"
 import { apiError } from "./error.js"
 
 export const verifyToken = (req, res, next) => {
-    console.log(req.cookies)
     const token = req.cookies.access__token;
 
     if (!token) return next(apiError(401, "You are not Authenticated"))
@@ -16,7 +15,6 @@ export const verifyToken = (req, res, next) => {
 }
 
 export const verifyUser = (req, res, next) => {
-    console.log("re ", req.cookies)
     verifyToken(req, res, next, () => {
         if (req.params.id === req.user.id || req.user.isAdmin) {
             next()
@@ -27,10 +25,8 @@ export const verifyUser = (req, res, next) => {
 }
 
 export const verifyAdmin = (req, res, next) => {
-    console.log("re s ", req.cookies)
     verifyToken(req, res, next, () => {
         if (req.user.isAdmin) {
-            // console.log(req.user.isAdmin)
             next();
         } else {
             next(apiError(403, "Access denied. You are not an Admin"))
