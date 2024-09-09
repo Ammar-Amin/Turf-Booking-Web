@@ -71,7 +71,7 @@ const Table = () => {
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
                 {data.length > 0 && data.map((obj) => (
-                    <Row key={obj._id} obj={obj} deleteBooking={deleteBooking} />
+                    obj.turf !== null && <Row key={obj._id} obj={obj} deleteBooking={deleteBooking} />
                 ))}
             </tbody>
         </table>

@@ -21,6 +21,18 @@ const AllTurfs = () => {
         }
     }
 
+    const deleteTurf = async (id) => {
+        try {
+            let res = await axios.delete(`${import.meta.env.VITE_BASE_API}/api/turf/${id}`)
+            if (res) {
+                // console.log(res.data)
+                getAllTurfs()
+            }
+        } catch (error) {
+            console.log("Error deleting turf : ", error)
+        }
+    }
+
     useEffect(() => {
         getAllTurfs()
     }, [])
@@ -35,7 +47,7 @@ const AllTurfs = () => {
                         {
                             allTurfs.length > 0 &&
                             allTurfs.map((turf, i) => {
-                                return <TurfCard turf={turf} key={i} />
+                                return <TurfCard turf={turf} key={i} deleteTurf={deleteTurf} />
                             })
                         }
                     </div>

@@ -1,8 +1,19 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
-const TurfCard = ({ turf }) => {
+const TurfCard = ({ turf, deleteTurf }) => {
     const user = useSelector(state => state.auth.user)
     const isAdmin = user?.isAdmin
     return (
@@ -41,7 +52,28 @@ const TurfCard = ({ turf }) => {
                             type="button"
                             className="mt-3 ml-[34px] rounded-sm bg-red-500 px-3 py-1 text-[12px] font-semibold text-white shadow-sm hover:opacity-80"
                         >
-                            Delete
+                            <AlertDialog>
+                                <AlertDialogTrigger>Delete</AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            This action cannot be undone. This will permanently delete this turf
+                                            and remove turf's data from our servers.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction>
+                                            <button onClick={() => deleteTurf(turf._id)}>
+                                                Continue
+                                            </button>
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+
+                            {/* Delete */}
                         </button>
                     </>
                 }

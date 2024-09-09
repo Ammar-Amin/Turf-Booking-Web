@@ -1,7 +1,7 @@
 import { BookingForm, Loader } from '@/components'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 const SingleTurf = () => {
     const { id } = useParams()
@@ -65,6 +65,7 @@ const SingleTurf = () => {
                         >
                             {status}
                         </button>
+                        {status == "Booked Successfully!" && <Link to='/account' className='text-center text-green-700 font-medium'>You can check your booking <span className='underline'>here</span></Link>}
                         {/* LAPTOP FORM  */}
                         <div className='hidden md:block'>
                             {

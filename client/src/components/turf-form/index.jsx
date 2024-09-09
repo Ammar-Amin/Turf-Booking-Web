@@ -51,7 +51,7 @@ const TurfForm = ({ data }) => {
 
     function uploadFiles() {
         setUploading(true)
-        if (files.length > 0) {
+        if (files.length > 0 && files.length <= 3) {
             const promises = []
             for (let i = 0; i < files.length; i++) {
                 promises.push(
@@ -147,9 +147,14 @@ const TurfForm = ({ data }) => {
         }
     }
 
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+    const deleteImage = (index) => {
+        const newImages = formData.imageUrls.filter((_, i) => i !== index)
+        setFormData({ ...formData, imageUrls: newImages })
+    }
+
+    // useEffect(() => {
+    //     window.scrollTo(0, 0)
+    // }, [])
 
     if (loading) return <h1>Loading...</h1>
 
@@ -238,22 +243,35 @@ const TurfForm = ({ data }) => {
                             value={formData.closingTime}
                             onChange={handleChange}
                         />
-                        <Input
-                            label='Max 3 Images allowed'
-                            type='file'
-                            accept='image/*'
-                            multiple
-                            onChange={(e) => setFiles(e.target.files)}
-                        />
+                        <label className='ml-2'>Max 3 Images allowed</label>
                         {
-                            formData.imageUrls.length == 0 &&
+                            formData.imageUrls.length < 3 &&
+                            <input
+                                type='file'
+                                accept='image/*'
+                                required={formData.imageUrls.length === 0}
+                                multiple
+                                className='mt-2'
+                                onChange={(e) => setFiles(e.target.files)}
+                            />
+                        }
+                        <div className='flex gap-2 flex-wrap justify-center my-4'>
+                            {formData.imageUrls.length > 0 && formData.imageUrls.map((url, i) => (
+                                <div className=''>
+                                    <img src={url} alt='image' key={i} className='w-[100px] h-[100px] object-cover rounded-t-lg' />
+                                    <div className='cursor-pointer text-center p-1 text-xs text-white bg-red-400 rounded-b-lg' onClick={() => deleteImage(i)}>Delete</div>
+                                </div>
+                            ))}
+                        </div>
+                        {
+                            formData.imageUrls.length < 3 &&
                             files.length > 0 &&
                             <button type='button' onClick={uploadFiles} disabled={uploading} className='w-[100px] mx-auto py-1 text-center bg-teal-400 rounded-lg'>
                                 {uploading ? "Uploading" : "Upload"}
                             </button>
                         }
-                        {formData.imageUrls.length > 0 &&
-                            <span className='text-center text-green-700'>Uploaded.</span>
+                        {uploading || formData.imageUrls.length > 0 &&
+                            <span className='text-center text-green-700 mt-2'>Uploaded successfully</span>
                         }
                         {
                             error && <span className='mt-2 text-red-500 font-medium text-center'>{error}</span>
